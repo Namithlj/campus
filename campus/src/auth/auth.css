@@ -1,0 +1,27 @@
+.auth-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.auth-container input, select {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0b72b9;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.auth-container button:hover {
+  background-color: #095a94;
+}
