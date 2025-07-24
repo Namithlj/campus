@@ -8,8 +8,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import Signup from './auth/Signup';
 import Login from './auth/Login';
 import ProtectedRoute from './ProtectedRoute';
-import AdminRoute from './AdminRoute';
-import Recruitment from './pages/Recruitmentcomapny';
+ import Recruitment from './pages/Recruitmentcomapny';
+ import AdminRoute from './route/AdminRoute';
 function App() {
   return (
     <Router>
