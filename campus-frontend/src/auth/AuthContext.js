@@ -1,25 +1,27 @@
-import React, { createContext, useContext, useState } from 'react';
+// auth/AuthContext.js
+import { createContext, useContext, useEffect, useState } from 'react';
 
-// Create the context
 const AuthContext = createContext();
 
-// Auth Provider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Dummy login (just sets user object)
-  const login = (email, password) => {
-    // In real app, validate using backend
-    if (email === 'n@gmail.com' && password === '1234') {
-      setUser({ email });
-      return true;
-    } else {
-      return false;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      setUser({ token, ...decoded }); // Includes role, id, sub
     }
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    setUser({ token, ...decoded });
   };
 
-  // Logout clears the user
   const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
   };
 
@@ -30,5 +32,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);

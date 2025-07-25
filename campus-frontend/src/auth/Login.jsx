@@ -1,87 +1,67 @@
-// import React, { useState } from 'react';
-// import './auth.css';
-
-// const Login = () => {
-//   const [formData, setFormData] = useState({ email: '', password: '' });
-//   const [message, setMessage] = useState('');
-
-//   const handleChange = (e) => {
-//     setFormData({...formData, [e.target.name]: e.target.value});
-//   };
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     // Will connect to backend later
-//     console.log('Login form submitted', formData);
-//     setMessage("Login submitted. Waiting for backend connection.");
-//   };
-
-//   return (
-//     <div className="auth-container">
-//       <h2>Login</h2>
-//       <form onSubmit={handleLogin}>
-//         <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-//         <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-//         <button type="submit">Login</button>
-//       </form>
-//       <p>{message}</p>
-//     </div>
-//   );
-// };
-
-// export default Login;
+// src/auth/Login.js
 import React, { useState } from 'react';
-import './auth.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // ✅ import context
+import axios from 'axios';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [message, setMessage] = useState('');
+function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // ✅ use login from context
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const success = login(formData.email, formData.password);
+    try {
+      const res = await axios.post('http://localhost:8080/api/auth/users/login', {
+        email,
+        password,
+      });
 
-    if (success) {
-      setMessage('Login successful!');
-      navigate('/'); // ✅ redirect to home page
-    } else {
-      setMessage('Invalid email or password');
+      const { token, role } = res.data;
+
+      // Store in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+
+      // Redirect based on role
+      if (role === 'ADMIN') navigate('/admin');
+      else if (role === 'STAFF') navigate('/staff');
+      else navigate('/placements');
+    } catch (err) {
+      setError('Invalid credentials');
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
         <input
-          name="email"
           type="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          className="w-full p-2 mb-4 border rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
-          name="password"
           type="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          className="w-full p-2 mb-4 border rounded"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
+          Login
+        </button>
       </form>
-      <p>{message}</p>
     </div>
   );
-};
+}
 
 export default Login;
