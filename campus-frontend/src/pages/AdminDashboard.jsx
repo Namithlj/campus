@@ -10,12 +10,13 @@ const AdminDashboard = () => {
     registerLink: '',
   });
 
-  const [placementData, setPlacementData] = useState({
-    studentName: '',
-    department: '',
-    company: '',
-    package: '',
-  });
+const [placementData, setPlacementData] = useState({
+  studentName: '',
+  department: '',
+  company: '',
+  packageAmount: '',  // ✅ matches backend
+});
+
 
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [dbLink, setDbLink] = useState('');
@@ -28,19 +29,40 @@ const AdminDashboard = () => {
     setPlacementData({ ...placementData, [e.target.name]: e.target.value });
   };
 
-  const submitCompanyData = async (e) => {
-    e.preventDefault();
-    console.log('Company Data Submitted:', companyData);
-    // Call backend API
-    // await fetch('/api/company', { method: 'POST', body: JSON.stringify(companyData) });
-  };
+const submitCompanyData = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("http://localhost:8080/api/company", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(companyData),
+    });
+    if (res.ok) {
+      alert("Company added!");
+      setCompanyData({ company: '', process: '', eligibility: '', companyLink: '', registerLink: '' });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
-  const submitPlacementData = async (e) => {
-    e.preventDefault();
-    console.log('Placement Data Submitted:', placementData);
-    // Call backend API
-    // await fetch('/api/placement', { method: 'POST', body: JSON.stringify(placementData) });
-  };
+const submitPlacementData = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("http://localhost:8080/api/placement", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(placementData),
+    });
+    if (res.ok) {
+      alert("Placement added!");
+      setPlacementData({ studentName: '', department: '', company: '', package: '' });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 
   const handleDbImport = () => {
     if (!dbLink) return;
@@ -71,7 +93,7 @@ const AdminDashboard = () => {
           <input name="studentName" placeholder="Student Name" onChange={handlePlacementChange} required />
           <input name="department" placeholder="Department" onChange={handlePlacementChange} required />
           <input name="company" placeholder="Company" onChange={handlePlacementChange} required />
-          <input name="package" placeholder="Package (LPA)" onChange={handlePlacementChange} required />
+<input name="packageAmount" placeholder="Package (LPA)" onChange={handlePlacementChange} required />
           <button type="submit">Add Placement</button>
         </form>
       </div>

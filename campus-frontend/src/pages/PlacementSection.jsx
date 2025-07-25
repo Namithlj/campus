@@ -1,28 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import './pages.css';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  Cell,
+} from 'recharts';
+import axios from 'axios';
 
 const PlacementSection = () => {
+  const [data, setData] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [students, setStudents] = useState([]);
+
+  // 🎨 Array of colors (add more if you have more departments)
+  const COLORS = [
+    '#8884d8', // Purple
+    '#82ca9d', // Green
+    '#ffc658', // Yellow
+    '#ff8042', // Orange
+    '#00C49F', // Teal
+    '#FFBB28', // Amber
+    '#A28EFF', // Light Purple
+    '#FF6B6B', // Red
+    '#29B6F6', // Blue
+  ];
 
   useEffect(() => {
-    // Dummy data – replace this with API fetch later
-    const dummyDepartments = [
-      { name: 'CSE', placed: 42, total: 50 },
-      { name: 'ECE', placed: 30, total: 40 },
-      { name: 'ME', placed: 15, total: 25 },
-    ];
+    axios.get('http://localhost:8080/api/placements')
+      .then((res) => {
+        const fetched = res.data;
+        setData(fetched);
 
-    const dummyStudents = [
-      { name: 'Rahul', dept: 'CSE', company: 'TCS' },
-      { name: 'Anjali', dept: 'CSE', company: 'Infosys' },
-      { name: 'Ravi', dept: 'ECE', company: 'Wipro' },
-      { name: 'Sneha', dept: 'ME', company: 'L&T' },
-    ];
+        const grouped = fetched.reduce((acc, curr) => {
+          if (!acc[curr.department]) {
+            acc[curr.department] = [];
+          }
+          acc[curr.department].push(curr);
+          return acc;
+        }, {});
 
-    setDepartments(dummyDepartments);
-    setStudents(dummyStudents);
+        const departmentsArray = Object.keys(grouped).map((dept) => ({
+          name: dept,
+          placed: grouped[dept].length,
+          total: 78, // You can make this dynamic
+          students: grouped[dept],
+        }));
+
+        setDepartments(departmentsArray);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch placement data:', err);
+      });
   }, []);
 
   const chartData = departments.map((dept) => ({
@@ -42,7 +75,11 @@ const PlacementSection = () => {
             <YAxis unit="%" />
             <Tooltip />
             <Legend />
-            <Bar dataKey="percentage" fill="#4caf50" />
+            <Bar dataKey="percentage" name="Placement %" >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -61,17 +98,17 @@ const PlacementSection = () => {
                 <tr>
                   <th>Name</th>
                   <th>Company</th>
+                  <th>Package</th>
                 </tr>
               </thead>
               <tbody>
-                {students
-                  .filter((student) => student.dept === dept.name)
-                  .map((student, i) => (
-                    <tr key={i}>
-                      <td>{student.name}</td>
-                      <td>{student.company}</td>
-                    </tr>
-                  ))}
+                {dept.students.map((student, i) => (
+                  <tr key={i}>
+                    <td>{student.studentName}</td>
+                    <td>{student.company}</td>
+                    <td>{student.packageAmount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
