@@ -13,7 +13,7 @@ import com.nagesh.service.UserService;
 
 @RestController
 
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth/users")
 public class UserController {
 	
 	@Autowired
