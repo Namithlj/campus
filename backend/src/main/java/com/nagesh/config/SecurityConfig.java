@@ -18,11 +18,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/users/**").permitAll()
+                // 👇 Allow these endpoints without authentication
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/api/company",
+                    "/api/placement",
+                    "/api/placements",
+                    "/api/recruitment"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login.disable());
 
         return http.build();
     }
+
 }
