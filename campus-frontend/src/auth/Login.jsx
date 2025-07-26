@@ -1,67 +1,73 @@
-// src/auth/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from './AuthContext';
 
-function Login() {
-  const navigate = useNavigate();
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/users/login', {
-        email,
-        password,
+      // call backend login API
+      const res = await fetch('http://localhost:8080/api/auth/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
-      const { token, role } = res.data;
+      if (!res.ok) {
+        alert('Login failed');
+        return;
+      }
 
-      // Store in localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
+      const { token } = await res.json();
+      login(token); // store token and decode
 
-      // Redirect based on role
-      if (role === 'ADMIN') navigate('/admin');
-      else if (role === 'STAFF') navigate('/staff');
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      if (decoded.role === 'ADMIN') navigate('/admin');
       else navigate('/placements');
-    } catch (err) {
-      setError('Invalid credentials');
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96"
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
         <input
+          className="border rounded w-full py-2 px-3 mb-4"
           type="email"
           placeholder="Email"
-          className="w-full p-2 mb-4 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
+          className="border rounded w-full py-2 px-3 mb-4"
           type="password"
           placeholder="Password"
-          className="w-full p-2 mb-4 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
         >
           Login
         </button>
       </form>
     </div>
   );
-}
+};
 
 export default Login;

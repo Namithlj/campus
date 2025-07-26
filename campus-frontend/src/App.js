@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './pages/Header';
@@ -10,45 +9,49 @@ import Signup from './auth/Signup';
 import Login from './auth/Login';
 import Recruitment from './pages/Recruitmentcomapny';
 import ProtectedRoute from './auth/ProtectedRoute';
+import { AuthProvider } from './auth/AuthContext';
 import './index.css';
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <div className="min-h-screen pt-16">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/placements"
-            element={
-              <ProtectedRoute allowedRoles={['USER', 'ADMIN']}>
-                <PlacementSection />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/recruitment"
-            element={
-              <ProtectedRoute allowedRoles={['USER', 'ADMIN']}>
-                <Recruitment />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Header />
+        <div className="min-h-screen pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+
+            <Route
+              path="/placements"
+              element={
+                <ProtectedRoute allowedRoles={['USER', 'ADMIN']}>
+                  <PlacementSection />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/recruitment"
+              element={
+                <ProtectedRoute allowedRoles={['USER', 'ADMIN']}>
+                  <Recruitment />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
 }
 
