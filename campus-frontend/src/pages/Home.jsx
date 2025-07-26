@@ -33,18 +33,18 @@ const Home = () => {
       <section className="py-12 px-6 bg-white">
         <h2 className="text-3xl font-bold text-center mb-10">Key Features</h2>
         <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          <div className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition">
+          <Link to="/placements" className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition block">
             <h3 className="text-xl font-semibold mb-2">📋 Placement Tracker</h3>
             <p className="text-gray-600">Track company offers, packages, and eligibility in one place.</p>
-          </div>
-          <div className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition">
+          </Link>
+          <Link to="/recruitment" className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition block">
             <h3 className="text-xl font-semibold mb-2">🧑‍💻 Recruitment Management</h3>
             <p className="text-gray-600">Admins can add recruitment rounds, staff can update statuses.</p>
-          </div>
-          <div className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition">
+          </Link>
+          <Link to="/login" className="bg-gray-100 p-6 rounded-xl shadow hover:shadow-lg transition block">
             <h3 className="text-xl font-semibold mb-2">🔐 Role-Based Access</h3>
             <p className="text-gray-600">Secure login with JWT and access based on user roles.</p>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -52,14 +52,14 @@ const Home = () => {
       <section className="py-12 px-6">
         <h2 className="text-3xl font-bold text-center mb-8">Access for All Roles</h2>
         <div className="flex flex-col md:flex-row justify-center gap-8 max-w-4xl mx-auto">
-          <div className="bg-blue-100 text-blue-800 p-6 rounded-xl w-full text-center shadow">
+          <Link to="/placements" className="bg-blue-100 text-blue-800 p-6 rounded-xl w-full text-center shadow hover:shadow-md transition">
             <h3 className="text-xl font-bold mb-2">User</h3>
             <p>Apply to companies, track placements</p>
-          </div>
-          <div className="bg-red-100 text-red-800 p-6 rounded-xl w-full text-center shadow">
+          </Link>
+          <Link to="/admin" className="bg-red-100 text-red-800 p-6 rounded-xl w-full text-center shadow hover:shadow-md transition">
             <h3 className="text-xl font-bold mb-2">Admin</h3>
             <p>Add new companies, and update & view stats and charts.</p>
-          </div>
+          </Link>
         </div>
       </section>
     </div>

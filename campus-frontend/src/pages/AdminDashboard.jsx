@@ -10,13 +10,17 @@ const AdminDashboard = () => {
     registerLink: '',
   });
 
-const [placementData, setPlacementData] = useState({
-  studentName: '',
-  department: '',
-  company: '',
-  packageAmount: '',  // ✅ matches backend
-});
+  const [placementData, setPlacementData] = useState({
+    studentName: '',
+    department: '',
+    company: '',
+    packageAmount: '',
+  });
 
+  const [adminCredentials, setAdminCredentials] = useState({
+    email: '',
+    password: '',
+  });
 
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [dbLink, setDbLink] = useState('');
@@ -29,40 +33,62 @@ const [placementData, setPlacementData] = useState({
     setPlacementData({ ...placementData, [e.target.name]: e.target.value });
   };
 
-const submitCompanyData = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("http://localhost:8080/api/company", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(companyData),
-    });
-    if (res.ok) {
-      alert("Company added!");
-      setCompanyData({ company: '', process: '', eligibility: '', companyLink: '', registerLink: '' });
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
+  const handleAdminChange = (e) => {
+    setAdminCredentials({ ...adminCredentials, [e.target.name]: e.target.value });
+  };
 
-const submitPlacementData = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("http://localhost:8080/api/placement", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(placementData),
-    });
-    if (res.ok) {
-      alert("Placement added!");
-      setPlacementData({ studentName: '', department: '', company: '', package: '' });
+  const submitCompanyData = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8080/api/company", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(companyData),
+      });
+      if (res.ok) {
+        alert("Company added!");
+        setCompanyData({ company: '', process: '', eligibility: '', companyLink: '', registerLink: '' });
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
+  };
 
+  const submitPlacementData = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8080/api/placement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(placementData),
+      });
+      if (res.ok) {
+        alert("Placement added!");
+        setPlacementData({ studentName: '', department: '', company: '', packageAmount: '' });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const updateAdminCredentials = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8080/api/admin", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(adminCredentials),
+      });
+      if (res.ok) {
+        alert("Admin credentials updated!");
+        setAdminCredentials({ email: '', password: '' });
+      } else {
+        alert("Failed to update admin credentials.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleDbImport = () => {
     if (!dbLink) return;
@@ -75,6 +101,7 @@ const submitPlacementData = async (e) => {
       <h2>🛠️ Admin Dashboard</h2>
       <p>Add recruitment and placement details below.</p>
 
+      {/* Add Company Recruitment */}
       <div className="form-section">
         <h3>📄 Add Company Recruitment</h3>
         <form onSubmit={submitCompanyData}>
@@ -87,17 +114,29 @@ const submitPlacementData = async (e) => {
         </form>
       </div>
 
+      {/* Add Placement Record */}
       <div className="form-section">
         <h3>🎓 Add Placement Record</h3>
         <form onSubmit={submitPlacementData}>
           <input name="studentName" placeholder="Student Name" onChange={handlePlacementChange} required />
           <input name="department" placeholder="Department" onChange={handlePlacementChange} required />
           <input name="company" placeholder="Company" onChange={handlePlacementChange} required />
-<input name="packageAmount" placeholder="Package (LPA)" onChange={handlePlacementChange} required />
+          <input name="packageAmount" placeholder="Package (LPA)" onChange={handlePlacementChange} required />
           <button type="submit">Add Placement</button>
         </form>
       </div>
 
+      {/* Admin Credentials Update */}
+      <div className="form-section">
+        <h3>🔑 Change Admin Email & Password</h3>
+        <form onSubmit={updateAdminCredentials}>
+          <input name="email" placeholder="New Admin Email" onChange={handleAdminChange} required />
+          <input name="password" placeholder="New Password" type="password" onChange={handleAdminChange} required />
+          <button type="submit">Update Admin</button>
+        </form>
+      </div>
+
+      {/* Import Database */}
       <div className="form-section">
         <h3>🗂️ Import from Database Link</h3>
         <button onClick={() => setShowGuidelines(!showGuidelines)}>
