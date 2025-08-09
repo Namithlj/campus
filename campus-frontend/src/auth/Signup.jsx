@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/users/register", formData);
+      const res = await axios.post("https://backend-5hpo.onrender.com/api/auth/users/register", formData);
       setMessage("Registration successful!");
     } catch (err) {
       setMessage("Registration failed. Try again.");

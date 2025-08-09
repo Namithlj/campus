@@ -31,7 +31,7 @@ const PlacementSection = () => {
   ];
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/placements')
+    axios.get('https://backend-5hpo.onrender.com/api/placements')
       .then((res) => {
         const fetched = res.data;
         setData(fetched);

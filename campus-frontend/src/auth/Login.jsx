@@ -13,7 +13,7 @@ const Login = () => {
 
     try {
       // call backend login API
-      const res = await fetch('http://localhost:8080/api/auth/users/login', {
+      const res = await fetch('https://backend-5hpo.onrender.com/api/auth/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

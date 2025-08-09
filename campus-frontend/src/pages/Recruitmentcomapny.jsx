@@ -6,7 +6,7 @@ const Recruitment = () => {
   const [recruitments, setRecruitments] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/recruitment')
+    axios.get('https://backend-5hpo.onrender.com/api/recruitment')
       .then((response) => {
         setRecruitments(response.data);
       })

@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   const submitCompanyData = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/company", {
+      const res = await fetch("https://backend-5hpo.onrender.com/api/company", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(companyData),
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
   const submitPlacementData = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/placement", {
+      const res = await fetch("https://backend-5hpo.onrender.com/api/placement", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(placementData),
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
   const updateAdminCredentials = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/admin", {
+      const res = await fetch("https://backend-5hpo.onrender.com/api/admin", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(adminCredentials),
