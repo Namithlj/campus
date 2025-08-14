@@ -1,3 +1,10 @@
+body {
+  background: linear-gradient(120deg, #eaf4ff 60%, #fafafa 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
 .App {
   text-align: center;
 }
