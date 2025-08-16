@@ -7,7 +7,6 @@ import com.nagesh.model.Company;
 import com.nagesh.model.Placement;
 import com.nagesh.repository.CompanyRepository;
 import com.nagesh.repository.PlacementRepository;
-@CrossOrigin(origins = "https://campus-frontend-n15z.onrender.com")
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")

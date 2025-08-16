@@ -12,7 +12,7 @@ import com.nagesh.model.User;
 import com.nagesh.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "https://campus-frontend-n15z.onrender.com")
+
 @RequestMapping("/api/auth/users")
 public class UserController {
 	
