@@ -39,7 +39,7 @@ const AdminDashboard = () => {
   const submitCompanyData = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://campus-backend-wg4b.onrender.com/api/company", {
+      const res = await fetch("https://campus-backend-qvke.onrender.com/api/company", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(companyData),
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
   const submitPlacementData = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://campus-backend-wg4b.onrender.com/api/placement", {
+      const res = await fetch("https://campus-backend-qvke.onrender.com/api/placement", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(placementData),
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
   const updateAdminCredentials = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://campus-backend-wg4b.onrender.com/api/admin", {
+      const res = await fetch("https://campus-backend-qvke.onrender.com/api/admin", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(adminCredentials),

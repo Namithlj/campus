@@ -23,7 +23,7 @@ const Signup = () => {
     setLoading(true);
     setMessage("");
     try {
-      await axios.post("https://backend-5hpo.onrender.com/api/auth/users/register", formData);
+      await axios.post("https://campus-backend-qvke.onrender.com/api/auth/users/register", formData);
       setMessage("Registration successful!");
     } catch (err) {
       setMessage("Registration failed. Try again.");

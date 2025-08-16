@@ -21,7 +21,7 @@ const PlacementSection = () => {
   ];
 
   useEffect(() => {
-    axios.get('https://campus-backend-wg4b.onrender.com/api/placements')
+    axios.get('https://campus-backend-qvke.onrender.com/api/placements')
       .then((res) => {
         const fetched = res.data;
 

@@ -5,7 +5,7 @@ const Recruitment = () => {
   const [recruitments, setRecruitments] = useState([]);
 
   useEffect(() => {
-    axios.get('https://campus-backend-wg4b.onrender.com/api/recruitment')
+    axios.get('https://campus-backend-qvke.onrender.com/api/recruitment')
       .then((response) => {
         setRecruitments(response.data);
       })

@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('https://campus-backend-wg4b.onrender.com/api/auth/users/login', {
+      const res = await fetch('https://campus-backend-qvke.onrender.com/api/auth/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
