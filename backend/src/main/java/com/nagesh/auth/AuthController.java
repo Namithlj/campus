@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nagesh.service.AuthService;
-
+@CrossOrigin(origins = "https://campus-frontend-n15z.onrender.com")
 @RestController
 @RequestMapping("/api/auth/users")
 public class AuthController {
