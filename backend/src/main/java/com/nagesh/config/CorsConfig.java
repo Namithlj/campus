@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // allow all paths
-                        .allowedOrigins("http://localhost:3000") // allow all origins (or specify your frontend URL like "http://localhost:3000")
+                        .allowedOrigins("https://campus-frontend-n15z.onrender.com") // allow all origins (or specify your frontend URL like "http://localhost:3000")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
