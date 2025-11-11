@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run app
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /backend
 COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar backend.jar
 EXPOSE 8080
